@@ -1,0 +1,61 @@
+// BEGIN Import Gradle Central Build
+buildscript {
+    ext {
+        CENTRAL_S3_BUCKET = 'ssprod-or-jenks-s3-cicd-ep-gradle-buildscripts.s3.us-west-2.amazonaws.com'
+        CENTRAL_GROUP = 'com.sf.bt.cd.gradle'
+        CENTRAL_ARTIFACT = 'CICD_gradle-central-java-lib-v3'
+        CENTRAL_URL = "https://${CENTRAL_S3_BUCKET}/${CENTRAL_ARTIFACT}"
+    }
+    apply from: "${CENTRAL_URL}/buildscript.gradle", to: buildscript
+}
+apply from: "${CENTRAL_URL}/build.gradle"
+// END Import Gradle Central Build
+
+group = 'com.sforce.nui'
+version = '1.2.0-SNAPSHOT'
+description = 'ORGSF-Sales-Support'
+java.sourceCompatibility = JavaVersion.VERSION_22
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url 'https://store.sfdcbt.net/nexus/content/repositories/snapshots'
+    }
+}
+
+mavenPluginPublish {
+    deployToUrl = 'https://store.sfdcbt.net/nexus/content/repositories/snapshots'
+}
+
+ext {
+    nuiUtilityVersion = '1.2.0-SNAPSHOT'
+    seleniumVersion = '4.8.0'
+    testngVersion = '6.14.3'
+}
+
+dependencies {
+    implementation "com.sforce.nui:nui-utility:${nuiUtilityVersion}"
+    implementation "org.slf4j:slf4j-api:2.0.7"
+    implementation 'ch.qos.logback:logback-classic:1.4.6'
+    implementation 'ch.qos.logback:logback-core:1.4.6'
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+}
+
+test {
+    exclude '**/*Test*'
+}
+
+//to run test in local machine
+task localTest(type: Test) {
+    include '**/*Test*'
+    useTestNG()
+    testLogging {
+        showStandardStreams = true
+    }
+    // You have to do this to be able to use system properties because another JVM will be forked
+    options {
+        systemProperties(System.getProperties())
+    }
+}

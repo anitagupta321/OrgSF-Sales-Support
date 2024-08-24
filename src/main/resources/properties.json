@@ -1,0 +1,21 @@
+{
+  "credentials": {
+    "ORG62": {
+      "user": "",
+      "pswd": "",
+      "webserviceEndpoint": "https://test.salesforce.com/services/Soap/u/56.0",
+      "testEnvironment": "https://test.salesforce.com"
+    },
+    "L2C": {
+      "user": "",
+      "pswd": "",
+      "webserviceEndpoint": "https://test.salesforce.com/services/Soap/u/56.0",
+      "testEnvironment": "https://test.salesforce.com"
+    },
+    "GUS": {
+      "user": "",
+      "pswd": "",
+      "webserviceEndpoint": "https://gus.my.salesforce.com/services/Soap/u/56.0"
+    }
+  }
+}
